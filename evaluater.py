@@ -8,12 +8,13 @@ import random, argparse
 
 
 from util import util
-from model import auto_encoder, deep_auto_encoder
+from model import auto_encoder, deep_auto_encoder, cnn_auto_encoder
 
 
 archs = {
     'normal': auto_encoder.AutoEncoder,
-    'deep': deep_auto_encoder.DeepAutoEncoder
+    'deep': deep_auto_encoder.DeepAutoEncoder,
+    'cnn': cnn_auto_encoder.CnnAutoEncoder
 }
 
 

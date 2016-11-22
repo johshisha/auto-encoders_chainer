@@ -1,20 +1,22 @@
 #coding: utf-8
 
 import chainer
-from chainer import computational_graph, serializers, cuda, optimizers, Variable
+from chainer import computational_graph as c, serializers, cuda, optimizers, Variable
 from chainer import functions as F, links as L
 import numpy as np
 import argparse
+from IPython import embed
 
 
 from util import util
-from model import auto_encoder, deep_auto_encoder
+from model import auto_encoder, deep_auto_encoder, cnn_auto_encoder
 from model.losser import Losser
 
 
 archs = {
     'normal': auto_encoder.AutoEncoder,
-    'deep': deep_auto_encoder.DeepAutoEncoder
+    'deep': deep_auto_encoder.DeepAutoEncoder,
+    'cnn': cnn_auto_encoder.CnnAutoEncoder
 }
 
 
@@ -33,6 +35,7 @@ def train(model, optimizer, x_train, y_train):
 
             optimizer.zero_grads()
             loss = losser(x_batch, y_batch)
+            print(loss.data)
             loss.backward()
             optimizer.update()
 
@@ -55,8 +58,12 @@ if __name__ == '__main__':
                         help='Auto-encoder architecture')
     parser.add_argument('--gpu', '-g', type=int, default=-1,
                         help='GPU ID (negative value indicates CPU')
+    parser.add_argument('--beta1', '-be', type=float, default=0.5,
+                        help='Beta1 in Adam parameter')
     parser.add_argument('--out', '-o', default='resource',
                         help='Output directory')
+    parser.add_argument('--no_dropout', action='store_true')
+    parser.set_defaults(no_dropout=False)
     args = parser.parse_args()
 
 
@@ -76,7 +83,9 @@ if __name__ == '__main__':
     else:
         model.to_cpu()
 
-    optimizer = optimizers.Adam()
+    if args.no_dropout:
+        model.train = False  #without dropout
+    optimizer = optimizers.Adam(alpha=0.01, beta1=args.beta1)
     optimizer.setup(model)
 
     model = train(model, optimizer, x_train, y_train)

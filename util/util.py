@@ -3,7 +3,7 @@
 from sklearn.datasets import fetch_mldata
 import numpy as np
 import matplotlib.pyplot as plt
-
+from chainer import computational_graph as c
 
 def load_mnist(N = 60000, noised=True):
     # MNISTの手書き数字データのダウンロード
@@ -64,3 +64,9 @@ def draw_digits(y, t):
             draw_digit_ae(y[img_no].data, pos+1, int(num/10)*2, 10, "pred")
 
     plt.show()
+
+
+def draw_graph(variable):
+    g = c.build_computational_graph(variable)
+    with open('resource/g.out', 'w') as o:
+        o.write(g.dump())

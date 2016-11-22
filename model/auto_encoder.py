@@ -7,7 +7,7 @@ import numpy as np
 
 
 n_input = 784
-n_units = 1000
+n_units = 500
 
 class AutoEncoder(chainer.Chain):
     train = True
@@ -18,9 +18,9 @@ class AutoEncoder(chainer.Chain):
         )
 
     def __call__(self, x, hidden=False):
-        y = F.dropout(F.relu(self.encoder(x)), train=self.train)
+        h = F.dropout(F.relu(self.encoder(x)), train=self.train)
         if hidden:
-            return y
-        x_hat  = F.dropout(self.decoder(y),  train=self.train)
+            return h
+        x_hat  = F.dropout(F.sigmoid(self.decoder(h)),  train=self.train)
         return x_hat
 
