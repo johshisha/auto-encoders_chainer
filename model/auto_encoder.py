@@ -7,7 +7,7 @@ import numpy as np
 
 
 n_input = 784
-n_units = 500
+n_units = 128
 
 class AutoEncoder(chainer.Chain):
     train = True

@@ -33,9 +33,10 @@ def train(model, optimizer, x_train, y_train):
             x_batch = Variable(x_train[i:i+batchsize])
             y_batch = Variable(y_train[i:i+batchsize])
 
-            optimizer.zero_grads()
+
             loss = losser(x_batch, y_batch)
-            print(loss.data)
+            # print(loss.data)
+            optimizer.zero_grads()  #backwardの直前におく！！！！！！！！！！！！！！
             loss.backward()
             optimizer.update()
 
