@@ -3,8 +3,6 @@
 import chainer
 from chainer import computational_graph, serializers, cuda, optimizers, Variable
 from chainer import functions as F, links as L
-import numpy as np
-
 
 n_input = 784
 n_units = 128
