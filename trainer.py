@@ -74,15 +74,17 @@ if __name__ == '__main__':
     n_epoch = args.epoch
     batchsize = args.batchsize
 
-    x_train, x_test, y_train, y_test = util.load_mnist(noised=False) #load mnist data
-
-
     #difine model and optimizer
     model = archs[args.arch]()
     if args.gpu >= 0:
+        xp = cuda.cupy
+        cuda.get_device(args.gpu)
         model.to_gpu()
     else:
+        xp = np
         model.to_cpu()
+
+    x_train, x_test, y_train, y_test = list(map(xp.array, util.load_mnist(noised=False))) #load mnist data
 
     if args.no_dropout:
         model.train = False  #without dropout

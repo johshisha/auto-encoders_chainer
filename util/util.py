@@ -2,7 +2,6 @@
 
 from sklearn.datasets import fetch_mldata
 import numpy as np
-import matplotlib.pyplot as plt
 from chainer import computational_graph as c
 import random
 
@@ -40,6 +39,7 @@ def load_mnist(N = 60000, noised=True):
 
 
 
+#import matplotlib.pyplot as plt
 # draw a image of handwriting number
 def draw_digit_ae(data, n, row, col, _type, size = 28):
     plt.subplot(row, col, n)

@@ -3,7 +3,6 @@
 import chainer
 from chainer import computational_graph, serializers, cuda, optimizers, Variable
 from chainer import functions as F, links as L
-import numpy as np
 
 from model.auto_encoder import AutoEncoder
 
